@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ircbot;
+package currently_unused;
 
+import currently_unused.IRC_Pane;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.URL;
