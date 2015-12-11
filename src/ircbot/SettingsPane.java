@@ -17,10 +17,6 @@ import layout.SpringUtilities;
  */
 public class SettingsPane extends Settings implements ActionListener {
     JFrame     mainFrame;
-    //JTextField server;
-    //JTextField port;
-    //JTextField nickName;
-    //JTextField defaultChan;
     JButton    okButton;
     JButton    cancelButton;
     
@@ -32,7 +28,6 @@ public class SettingsPane extends Settings implements ActionListener {
     boolean settingsPaneOpen;
     
     public SettingsPane() {
-        //JLabel servText = new JLabel("Server", JLabel.CENTER);
         labels = new String[]{"IRC Server: ", 
                               "IRC Port: ", 
                               "IRC Username: ", 

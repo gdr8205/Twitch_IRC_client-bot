@@ -27,9 +27,6 @@ public class Settings {
     
     public Settings() {
         
-        //settings = new String[5];
-        //settingsTitles = new String[5];
-        
         // tell program all known settings
         settingsTitles = new String[] {"IRC_ip", 
                                        "IRC_port", 
@@ -155,38 +152,5 @@ public class Settings {
     
     public boolean saveSettings() {
         return false;
-    }
-    
-    public String returnIRC_Server() {
-        return IRC_server;
-    }
-    
-    public String returnIRC_port() {
-        return IRC_port;
-    }
-    
-    public String returnIRC_nickName() {
-        return IRC_nickName;
-    }
-    
-    public String returnIRC_defaultChannel() {
-        return IRC_defaultChannel;
-    }
-    
-    public void setIRC_server(String n) {
-        IRC_server = n;
-    }
-    
-    public void setIRC_port(String n) {
-        IRC_port = n;
-    }
-    public void setIRC_nickName(String n) {
-        IRC_nickName = n;
-    }
-    public void setIRC_OAUTH(String n) {
-        IRC_OAUTH = n;
-    }
-    public void setIRC_defaultChannel(String n) {
-        IRC_defaultChannel = n;
     }
 }
