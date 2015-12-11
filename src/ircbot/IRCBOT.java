@@ -306,7 +306,7 @@ public class IRCBOT extends JFrame implements ActionListener, KeyListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String prefix = "";
-        String userName = "Substarterbottest";
+        String userName = settingsPane.returnSetting("IRC_nick");
         String input = "<b><font color=blue>[" + userName + "]:</font></b> " + chatInput.getText();
         
         if (e.getSource() == g_start) {
@@ -686,7 +686,7 @@ public class IRCBOT extends JFrame implements ActionListener, KeyListener {
         if(e.getKeyCode() == KeyEvent.VK_ENTER) {
             String prefix = "";
             if(!chatInput.getText().equals("")) {
-                String userName = "Substarterbottest";
+                String userName = settingsPane.returnSetting("IRC_nick");
                 String input = "<b><font color=blue>[" + userName + "]:</font></b> " + chatInput.getText();
                 
                 //toChatScreen(input);
