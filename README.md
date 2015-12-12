@@ -4,3 +4,9 @@ Simple irc client/bot for twitch. Also, has the ability of giveaways and check u
 For database support, requires MySQL JDBC Driver
 
  One I use is from netbeans and is mysql-connector-java-5.1.23-bin.jar
+
+
+Currently working on:
+Cleaning up code in IRCBOT.java in preparation to implement new GUI in /currently_unused/TestSingleFrameLayout.java
+
+![alt tag](http://i.imgur.com/HWCXoJ2.png)
