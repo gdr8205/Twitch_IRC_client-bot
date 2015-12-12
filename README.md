@@ -9,6 +9,6 @@ For database support, requires MySQL JDBC Driver
 Currently working on:
 Cleaning up code in IRCBOT.java in preparation to implement new GUI in /currently_unused/TestSingleFrameLayout.java
 
-Will feature tabs for each channel and also addition menu options/items
+Will feature tabs for each channel and also addition menu options/items. In doing this, the program will run in one window instead of 3.
 
 ![alt tag](http://i.imgur.com/YiArTvc.png)
