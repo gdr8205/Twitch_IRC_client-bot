@@ -11,4 +11,4 @@ Cleaning up code in IRCBOT.java in preparation to implement new GUI in /currentl
 
 Will feature tabs for each channel and also addition menu options/items
 
-![alt tag](http://i.imgur.com/HWCXoJ2.png)
+![alt tag](http://i.imgur.com/YiArTvc.png)
