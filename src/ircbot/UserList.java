@@ -31,8 +31,6 @@ public class UserList {
         while(dataBreakOld < (compiledList.length()-1)) {
             dataBreak = compiledList.indexOf(" ", dataBreakOld);
             
-            
-            
             info = compiledList.substring(dataBreakOld, dataBreak);
             dataBreakOld = dataBreak+1;
             //System.out.println(info);
@@ -47,7 +45,9 @@ public class UserList {
         Iterator iterate = uList.iterator();
         
         while(iterate.hasNext()) {
-            end = end + iterate.next() + "\n";
+                end = end + iterate.next();
+                if(iterate.hasNext())
+                    end = end + "\n";
         }
 
         return end;

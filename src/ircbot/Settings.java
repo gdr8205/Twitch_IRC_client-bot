@@ -52,13 +52,17 @@ public class Settings {
     }
     
     // Cehck if settings file exists on local computer
-    public boolean checkFileExists() throws IOException{
+    public boolean checkFileExists(){
         FileReader in = null;
         try {
             in = new FileReader(settingsFileName);
         } finally {
             if(in != null) {
-                in.close();
+                try {
+                    in.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(Settings.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 return true;
             }
             else {
@@ -151,6 +155,23 @@ public class Settings {
     }
     
     public boolean saveSettings() {
+        try {
+            PrintWriter writer = new PrintWriter(settingsFileName, "UTF-8");
+            for(int x = 0; x < settings.length; x++) {
+                if(x == settings.length-1)
+                    writer.print(settingsTitles[x] + ": " + settings[x]);
+                else
+                    writer.print(settingsTitles[x] + ": " + settings[x] + "\n");
+            }
+            
+            writer.close();
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Settings.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(Settings.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         return false;
     }
 }

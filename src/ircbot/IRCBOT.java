@@ -85,6 +85,8 @@ public class IRCBOT extends JFrame implements ActionListener, KeyListener {
     
     private static SettingsPane settingsPane = new SettingsPane();
     
+    protected JScrollPane userListScroll;
+    
     public IRCBOT(boolean uList, String channel, int chatNum) {
         
         //chatter = new ChatDisplay("<html><body bgcolor='black'><table border=0pt width=100%>");
@@ -151,7 +153,7 @@ public class IRCBOT extends JFrame implements ActionListener, KeyListener {
         JPanel sendBar      = new JPanel();
         JScrollPane scrollChat  = new JScrollPane(chatScreen);
         JScrollPane scrollChatInput  = new JScrollPane(chatInput);
-        JScrollPane userListScroll   = new JScrollPane(userList);
+        userListScroll   = new JScrollPane(userList);
         JScrollPane regUserListScroll = new JScrollPane(registeredUserList);
         
         userListScroll.setMinimumSize(min);
@@ -389,18 +391,10 @@ public class IRCBOT extends JFrame implements ActionListener, KeyListener {
     }
     
     public void setRegUserList(String list) {
+        // DB function
+        // Registered User List from db
         registeredUserList.setText(list);
     }
-    
-    public void setChatScreen() {
-        chatScreen.setText(chatter.printScreen());
-        chatScreen.setCaretPosition(chatScreen.getDocument().getLength());
-    }
-    
-    public void sendToChatArray(String text) {
-        chatter.addTo(text);
-    }
-
     
     public static void main(String[] args) throws BadLocationException {
         // TODO code application logic here
@@ -434,14 +428,8 @@ public class IRCBOT extends JFrame implements ActionListener, KeyListener {
                                             settingsPane.returnSetting("MySQL_password"),
                                             settingsPane.returnSetting("MySQL_dbName"));
         
-        Vector<String>rUList;
-        //rUList = mysql.select();
-        
-        //for(int i=0; i<rUList.size();i++){
-        //    System.out.println(rUList.get(i));
-        //}
-        
         Vector<IRCBOT> windows = new Vector<IRCBOT>(1);
+        Vector<String> compUList = new Vector<String>(1); 
         windowNames = new Vector<String>(1);
 
         boolean running = true;
@@ -453,59 +441,26 @@ public class IRCBOT extends JFrame implements ActionListener, KeyListener {
         int port = Integer.parseInt(settingsPane.getPortField());
         String nick = settingsPane.getNickNameField();
         String oauth = settingsPane.getOAuth();
-        String channel = JOptionPane.showInputDialog("Greetings " + nick + "!\nEnter channel: ");
-        
-        ///windowNames[0] = "Raw Data";
-        ///windowNames[1] = "#seriousgaming";
-        ///windowNames[2] = channel;
-        
+        String channel = JOptionPane.showInputDialog("Greetings " + nick + "!\nEnter channel: ");        
         
         windowNames.addElement("Raw Data");
         windowNames.addElement("#" + nick);
-        windowNames.addElement(channel);
+        windowNames.addElement(channel);      
         
-        /*
-        windows[0] = new IRCBOT(false, windowNames[0]); // setup raw data window
-            windows[0].setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        windows[1] = new IRCBOT(true, windowNames[1]);  // setup first channel window
-            windows[1].setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        windows[2] = new IRCBOT(true, windowNames[2]);  // setup first channel window
-            windows[2].setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        */
-        
-        
-        
-        windows.addElement(new IRCBOT(false, windowNames.get(0), chat));
-            //windows.lastElement().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            windows.lastElement().setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            substarter.addGiveawayList();
-            chat++;
-        windows.addElement(new IRCBOT(true, windowNames.get(1), chat));
-            windows.lastElement().setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            substarter.addGiveawayList();
-            chat++;
-        windows.addElement(new IRCBOT(true, windowNames.get(2), chat));
+        for(int x = 0; x < windowNames.size(); x++) {
+            if(x == 0)
+                windows.addElement(new IRCBOT(false, windowNames.get(x), chat));
+            else
+                windows.addElement(new IRCBOT(true, windowNames.get(x), chat));
             windows.lastElement().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            substarter.addGiveawayList();
-            chat++;
-            
-        for (int x=0; x<windows.size();x++){
             windows.get(x).setTitle("Substarter Client: " + windowNames.get(x));
+            substarter.addGiveawayList();
+            compUList.addElement("");
+            chat++;
         }
         
         sock = new connection(server, port, nick, oauth, channel);
-        sock.connect();
-        Vector<String> compUList = new Vector<String>(1); 
-        
-        compUList.addElement("");
-        compUList.addElement("");
-        compUList.addElement("");
-        
-        //regCompUList = new Vector<String>(1); 
-        
-        //regCompUList.addElement("");
-        //regCompUList.addElement("");
-        //regCompUList.addElement("");
+        sock.connect();        
         
         IrcParser parse;
         
@@ -521,11 +476,13 @@ public class IRCBOT extends JFrame implements ActionListener, KeyListener {
                 String comment = parse.returnMisc();
                 String channelParsed = parse.returnChannel();
                 
-                int nickNameBegin = nickName.indexOf(":")+1;
-                int nickNameEnd   = nickName.indexOf("!");
+                
                 
                 
                 if(nickName.contains("!")) {
+                    int nickNameBegin = nickName.indexOf(":")+1;
+                    int nickNameEnd   = nickName.indexOf("!");
+                    
                     nickName = nickName.substring(nickNameBegin, nickNameEnd);
                 }
             
@@ -578,7 +535,9 @@ public class IRCBOT extends JFrame implements ActionListener, KeyListener {
                         if(!compUList.get(windowNum).contains(nickName)) {
                             compUList.setElementAt(compUList.get(windowNum) + nickName + " ", windowNum);
                             UserList listPane = new UserList(compUList.get(windowNum));
+                            JScrollBar obj = windows.get(windowNum).userListScroll.getVerticalScrollBar();
                             windows.get(windowNum).setUserList(listPane.returnUserList());
+                            windows.get(windowNum).userListScroll.setVerticalScrollBar(obj);
                         }
                         
                         //compUList.setElementAt(compUList.get(windowNum) + parse.returnMisc().substring(placer+1) + " ",windowNum);
@@ -598,7 +557,9 @@ public class IRCBOT extends JFrame implements ActionListener, KeyListener {
                         if(compUList.get(windowNum).contains(nickName)) {
                             compUList.setElementAt(compUList.get(windowNum).replace(nickName + " ", ""),windowNum);
                             UserList listPane = new UserList(compUList.get(windowNum));
+                            JScrollBar obj = windows.get(windowNum).userListScroll.getVerticalScrollBar();
                             windows.get(windowNum).setUserList(listPane.returnUserList());
+                            windows.get(windowNum).userListScroll.setVerticalScrollBar(obj);
                         }
                     }
                     
@@ -670,16 +631,17 @@ public class IRCBOT extends JFrame implements ActionListener, KeyListener {
             System.out.println("\n\n\n\nsockClose ERROR: " + ex + "\n\n\n\n\n\n");
         }
     }
-
+    
+////////////////////////////////////////////////////////////////////////////////////
+    // key based events
     @Override
     public void keyTyped(KeyEvent e) {
-        ;
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        ;
     }
+    
     @Override
     public void keyReleased(KeyEvent e) {
         

@@ -30,6 +30,11 @@ public class IRC_DeCoder{
     private static final String RPL_Away = "301";
     private static final String RPL_UnAway = "305";
     private static final String RPL_NowAway = "306";
+    
+    private static final String RPL_TWITCH_CAP = "CAP";
+    private static final String RPL_TWITCH_USERSTATE = "USERSTATE";
+    private static final String RPL_TWITCH_ROOMSTATE = "ROOMSTATE";
+    private static final String RPL_TWITCH_MODE = "MODE";
    
     // Error Codes...
     private static final String ERR_UNKNOWN = "400";
@@ -81,23 +86,6 @@ public class IRC_DeCoder{
         userName       = sock.returnUserName();
     }
     
-//    public IRC_DeCoder(String RPL_line) {
-//        reply = RPL_line;
-//    }
-//    
-//    public IRC_DeCoder(IRCBOT s, connection b, String channel, String compUList, String IRC_user_info, String IRC_code, String IRC_misc) {
-//        nickName = IRC_user_info;
-//        code      = IRC_code;
-//        comment      = IRC_misc;
-//        defaultChannel = channel;
-//        
-//        userList = compUList;
-//        
-//        sock = b;
-//        
-//        window    = s;
-//    }
-//    
     public String decode() throws IOException, BadLocationException {
         String result = "";
         
@@ -110,21 +98,13 @@ public class IRC_DeCoder{
                             //window.toChatScreen(comment);
                             result = comment;
                             break;
-                        case "003":
+                        case RPL_CREATED:
                             //window.toChatScreen(comment);
                             result = comment;
                             break;
                         case "004":
-                            //sock.outputText("CAP REQ :twitch.tv/membership");
                             sock.outputText("JOIN " + "#" + userName + "\r\n");
-                            //sock.outputText("CAP REQ :twitch.tv/membership");
                             sock.outputText("JOIN " + defaultChannel + "\r\n");
-                            //sock.outputText("PART " + "#psynaps" + "\r\n");
-                            //sock.outputText("CAP REQ :twitch.tv/membership\r\n");
-                            
-                            //sock.outputText("NAMES #psynaps\r\n");
-                            //window.toChatScreen(comment);
-                            //result = comment;
                             break;
                         case "353":
                             //int placer = comment.indexOf(":");
@@ -153,10 +133,10 @@ public class IRC_DeCoder{
                             result = "<b><font color=green>[" + nickName + "]:</font></b> " + comment + "</td></tr>";
                             //s.toChatScreen("[" + nickName + "]: " + comment);
                             break;
-                        
-                        //case "PART":
-                        //    sock.outputText("/NAMES\r\n");
-                        //    break;
+                            
+                        case RPL_TWITCH_MODE:
+                            //System.out.println("\n\n\n\n\nPENIS\n MODE SEDDDDDD " + "\n\n\n\n");
+                            
                         default:
                             
                     }

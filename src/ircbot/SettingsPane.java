@@ -8,6 +8,7 @@ package ircbot;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import javax.swing.*;
 import layout.SpringUtilities;
 
@@ -74,7 +75,8 @@ public class SettingsPane extends Settings implements ActionListener {
                 textField[i] = new JPasswordField(super.settings[i]);
             else 
                 textField[i] = new JTextField(super.settings[i]);
-            textField[i].setEditable(false);
+            //if(i > 4)
+            //    textField[i].setEditable(false);
             l.setLabelFor(textField[i]);
             form.add(textField[i]);
         }
@@ -155,6 +157,26 @@ public class SettingsPane extends Settings implements ActionListener {
         settings[4] = textField[4].getText();
     }
     
+    public void setMYSQL_addr() {
+        settings[5] = textField[5].getText();
+    }
+    
+    public void setMYSQL_port() {
+        settings[6] = textField[6].getText();
+    }
+    
+    public void setMYSQL_userName() {
+        settings[7] = textField[7].getText();
+    }
+    
+    public void setMYSQL_password() {
+        settings[8] = textField[8].getText();
+    }
+    
+    public void setMYSQL_dbName() {
+        settings[9] = textField[9].getText();
+    }
+    
     public static void main(String[] args) {
         SettingsPane a = new SettingsPane();
     }
@@ -171,6 +193,13 @@ public class SettingsPane extends Settings implements ActionListener {
             setNickNameField();
             setOAuth();
             setDefaultChanField();
+            setMYSQL_addr();
+            setMYSQL_port();
+            setMYSQL_userName();
+            setMYSQL_password();
+            setMYSQL_dbName();
+            
+            saveSettings();
             setPaneStatus(false);
             mainFrame.dispose();
         }

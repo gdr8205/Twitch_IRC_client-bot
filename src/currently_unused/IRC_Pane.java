@@ -7,10 +7,12 @@ package currently_unused;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.*;
 import java.util.List;
 import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 /**
@@ -34,8 +36,12 @@ public final class IRC_Pane extends JPanel implements ActionListener{
     private HTMLEditorKit kit = new HTMLEditorKit(); // needs to be relocated
     private HTMLDocument doc = new HTMLDocument();   // ''
     
+    protected int chatNumber;
+    
     
     public IRC_Pane(boolean uList, String channel, int chatNum) {
+        chatNumber = chatNum;
+        
         this.setLayout(new BorderLayout(5,5));
         Dimension min = new Dimension(100,1);
         Dimension pref = new Dimension(150,1);
@@ -147,10 +153,21 @@ public final class IRC_Pane extends JPanel implements ActionListener{
     public static void main(String[] args) {
         IRC_Pane a = new IRC_Pane(true, "#name", 0);
     }
+    
+    public void doNothing() {
+        
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public void sendToChat(String text) throws IOException, BadLocationException {
+        
+        kit.insertHTML(doc, doc.getLength(), text, 0, 0, null);
+        //chatScreen.setCaretPosition(chatScreen.getDocument().getLength());
+        //chatScreen.setText(text);
     }
 }
 

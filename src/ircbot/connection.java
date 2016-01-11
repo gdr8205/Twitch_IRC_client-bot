@@ -125,7 +125,7 @@ public class connection {
             output.println(out + "\r\n");
     }
     
-    public String toChatScreen() throws IOException {
+    public String toChatScreen() throws IOException {  // not used...
         //System.out.println(rawFeedback());
         
         String finalData = "";
@@ -163,7 +163,7 @@ public class connection {
         return data;
     }
     
-    public boolean pingPong() throws IOException {
+    public boolean pingPong() throws IOException {  // also not used...
         String answer = rawFeedback();
         
         if(answer.startsWith("PING :")) {
