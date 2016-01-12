@@ -180,24 +180,29 @@ public class SettingsPane extends Settings implements ActionListener {
     public static void main(String[] args) {
         SettingsPane a = new SettingsPane();
     }
+    
+    public void setAllSettingsIntoMemory() {
+        setServerField();
+        setPortField();
+        setNickNameField();
+        setOAuth();
+        setDefaultChanField();
+        setMYSQL_addr();
+        setMYSQL_port();
+        setMYSQL_userName();
+        setMYSQL_password();
+        setMYSQL_dbName();
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        
         if(e.getSource() == cancelButton) {
             setPaneStatus(false);
             mainFrame.dispose();
         }
         else if (e.getSource() == okButton) {
-            setServerField();
-            setPortField();
-            setNickNameField();
-            setOAuth();
-            setDefaultChanField();
-            setMYSQL_addr();
-            setMYSQL_port();
-            setMYSQL_userName();
-            setMYSQL_password();
-            setMYSQL_dbName();
+            setAllSettingsIntoMemory();
             
             saveSettings();
             setPaneStatus(false);

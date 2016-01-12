@@ -441,7 +441,8 @@ public class IRCBOT extends JFrame implements ActionListener, KeyListener {
         int port = Integer.parseInt(settingsPane.getPortField());
         String nick = settingsPane.getNickNameField();
         String oauth = settingsPane.getOAuth();
-        String channel = JOptionPane.showInputDialog("Greetings " + nick + "!\nEnter channel: ");        
+        //String channel = JOptionPane.showInputDialog("Greetings " + nick + "!\nEnter channel: ");        
+        String channel = settingsPane.getDefaultChanField();
         
         windowNames.addElement("Raw Data");
         windowNames.addElement("#" + nick);
