@@ -86,6 +86,7 @@ public class IRCBOT extends JFrame implements ActionListener, KeyListener {
     private static SettingsPane settingsPane = new SettingsPane();
     
     protected JScrollPane userListScroll;
+    protected JScrollPane scrollChat;
     
     public IRCBOT(boolean uList, String channel, int chatNum) {
         
@@ -151,7 +152,7 @@ public class IRCBOT extends JFrame implements ActionListener, KeyListener {
         JPanel giveaway_buttons         = new JPanel(new BorderLayout(5,5));
         
         JPanel sendBar      = new JPanel();
-        JScrollPane scrollChat  = new JScrollPane(chatScreen);
+        scrollChat  = new JScrollPane(chatScreen);
         JScrollPane scrollChatInput  = new JScrollPane(chatInput);
         userListScroll   = new JScrollPane(userList);
         JScrollPane regUserListScroll = new JScrollPane(registeredUserList);
@@ -367,22 +368,36 @@ public class IRCBOT extends JFrame implements ActionListener, KeyListener {
     
     public void toChatScreen(String toScreen, boolean selfSeen) throws IOException, BadLocationException {
         //Timestamp ts = new Timestamp();
+        String toScreenFinal = "";
         Date now = Calendar.getInstance().getTime();
         SimpleDateFormat format = new SimpleDateFormat("hh:mm");
         String ts = format.format(now);
         
         //chatScreen.append(ts + " " + toScreen + "\n");
-        
+        toScreenFinal = "<font color=gray>" + ts + "</font> ";
         if (selfSeen)  
-            toScreen = "<font color=gray>" + ts + "</font> <font color=red>" + toScreen + "</font>";
+            toScreenFinal = toScreenFinal + "<font color=red>" + toScreen + "</font>";
         else 
-            toScreen = "<font color=gray>" + ts + "</font> " + toScreen;
+            toScreenFinal = toScreenFinal + toScreen;
         
         //chatter.addTo(toScreen);
-        kit.insertHTML(doc, doc.getLength(), toScreen, 0, 0, null);
-        if(standardWindow) {
-            chatScreen.setCaretPosition(chatScreen.getDocument().getLength());
-        }
+        
+        //if(standardWindow) {
+        //    chatScreen.setCaretPosition(chatScreen.getDocument().getLength());
+        //}
+        //else {
+            JScrollBar vBar = scrollChat.getVerticalScrollBar();
+            int vSize = vBar.getVisibleAmount();
+            int maxVBar = vBar.getMaximum();
+            int currVBar = vBar.getValue() + vSize;
+            kit.insertHTML(doc, doc.getLength(), toScreenFinal, 0, 0, null);
+            if(maxVBar == currVBar) {
+                chatScreen.setCaretPosition(chatScreen.getDocument().getLength());
+            }
+            
+        //}
+        
+        //kit.insertHTML(doc, doc.getLength(), toScreenFinal, 0, 0, null);
 
     }
     
@@ -437,12 +452,11 @@ public class IRCBOT extends JFrame implements ActionListener, KeyListener {
         
         
         String server = settingsPane.getServerField();
-        
         int port = Integer.parseInt(settingsPane.getPortField());
         String nick = settingsPane.getNickNameField();
         String oauth = settingsPane.getOAuth();
-        //String channel = JOptionPane.showInputDialog("Greetings " + nick + "!\nEnter channel: ");        
         String channel = settingsPane.getDefaultChanField();
+        //String channel = JOptionPane.showInputDialog("Greetings " + nick + "!\nEnter channel: ");    
         
         windowNames.addElement("Raw Data");
         windowNames.addElement("#" + nick);

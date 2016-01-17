@@ -18,6 +18,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.text.BadLocationException;
 
+import ircbot.SettingsPane;
+
 /**
  *
  * @author Garrett
@@ -45,6 +47,8 @@ public class TestSingleFrameLayout extends JFrame implements ActionListener{
     boolean connected = false;
     
     int chatNumber;
+    
+    private static SettingsPane settingsPane = new SettingsPane();
     
     public TestSingleFrameLayout() {
         chatNumber = 0;
@@ -249,6 +253,10 @@ public class TestSingleFrameLayout extends JFrame implements ActionListener{
                 disconnect_m.setVisible(false);
                 connected = false;
             }
+        }
+        
+        else if(e.getSource() == settings) {
+            settingsPane.showPane();
         }
     }
 }
